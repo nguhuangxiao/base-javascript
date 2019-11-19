@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>promise实现</title>
+</head>
+<body>
+	<h2>1.promise出现，解决了痛点</h2>
+	<h2>2.promise三种状态</h2>
+	<h2>3.promise API</h2>
+</body>
+<script type="text/javascript">
+	/*
+		new Promise(请求1){
+			.then(请求2(请求结果1))
+			.then(请求3(请求结果2))
+			.catch(处理异常)
+
+		1.初始化Promise
+		2.调用promise.then,注册回调函数
+		3.注册catch异常函数
+	}*/
+
+	/**
+
+	/**
+		状态： pending/fulfilled/rejected 。除了异步操作的结果，任何其他操作都无法改变这个状态
+	/**
+		1. resolve/reject
+		2. then/catch
+		3. race （赛跑）多个promise 一起执行，哪个返回结果快，就返回哪个结果，不管结果是成功还是失败
+		4. all 多个promise一起执行， 成功返回一个结果数组，失败则返回最新被reject状态的值
+	**/
+
+	/**
+		我买菜-保姆做饭-保姆送老婆公司-电话通知
+	**/
+
+	function maicai() {
+		return new Promise((resolve, reject) => {
+			resolve(['西红柿','鸡蛋', '青椒', '干子'])
+			//reject('手机和钱包都没带')
+		})
+	}
+	function zuofan(cai) {
+		return new Promise((resolve, reject) => {
+			const menu = {
+				'zhushi': '米饭',
+				'cai': ['西红柿炒鸡蛋', '青椒炒干子']
+			}
+			console.log(menu)
+			resolve(menu)
+		})
+	}
+	function songfan(wucan) {
+		return new Promise((resolve, reject) => {
+			resolve(['西红柿','鸡蛋', '青椒', '干子'])
+		})
+		
+	}
+	function tongzhi() {
+		console.log('午餐送到了，谢谢么么哒')
+	}
+
+
+	const zbwc = maicai()
+	.then(res1 => {
+		console.log(res1)
+		return zuofan(res1)
+	})
+	.then(res2 => {
+		return songfan(res2)
+	})
+	.then(res3 => {
+		return tongzhi()
+	})
+	.catch(error => {
+		console.log(error)
+	})
+</script>
+</html>

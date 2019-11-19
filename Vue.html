@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue</title>
+</head>
+<body>
+	1.Object.prototype.toString.call
+	2.Proxy 改变你操作对象的方式(是javascript对象的中间件)
+</body>
+<script type="text/javascript">
+
+
+	const hasHandler = {
+	    has (target, key) {
+	      const has = key in target
+	      const isAllowed = allowedGlobals(key) ||
+	        (typeof key === 'string' && key.charAt(0) === '_' && !(key in target.$data))
+	      if (!has && !isAllowed) {
+	        if (key in target.$data) warnReservedPrefix(target, key)
+	        else warnNonPresent(target, key)
+	      }
+	      return has || !isAllowed
+	    }
+	  }
+
+	const test = {
+		has: function(name) {
+
+		}
+	}
+
+  	const handler = {
+		get: function(obj, prop) {
+			console.log('A value has been accessed');
+			return obj[prop]
+		},
+
+		set: function(obj, prop, value){
+			console.log(obj, prop, value)
+			return obj[prop] = value
+		}
+	}
+
+	const initialObj = {
+	    id: 1,
+	    name: 'Foo Bar'
+	}
+
+	const proxiedObj = new Proxy(initialObj, handler);
+
+
+ 	/*
+ 	new Vue({
+ 		render: h => h(app)
+ 	})
+
+ 	new Vue({
+ 		render: function(createElement) {
+ 			return createElement(app)
+ 		}
+ 	})
+
+ 	new Vue({
+ 		render(createElement) {
+ 			return createElement(app)
+ 		}
+ 	})
+
+ 	new Vue({
+ 		render(h) {
+ 			return createElement(h)
+ 		}
+ 	})
+
+ 	new Vue({
+ 		render: h => h(app)
+ 	})
+ 	*/
+
+  
+</script>
+</html>

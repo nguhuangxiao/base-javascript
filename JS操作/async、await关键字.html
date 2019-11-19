@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>async、await关键字</title>
+</head>
+<body>
+	<h2>ES8 新增的关键字 【async、await】</h2>
+</body>
+<script type="text/javascript">
+	/**
+		async 声明在函数前面，函数总是会返回一个promise, 如果代码中return返回的不是一个promise,会被隐式转化, 把返回的value值包装成promise的resolved值
+		await 只能在async函数里面使用 。关键字可以使js等待，知道promise执行返回结果
+
+	**/
+
+	/*	
+		const makeRequest = () => 
+			getJSON()
+			.then( data => {
+				console.log(data)
+				return "done"
+			})
+		makeRequest()
+
+
+		const makeRequest = async () => {
+	  		console.log(await getJSON())
+	  		return "done"
+		}
+	*/
+
+	function delay() {
+		return new Promise((resolve, reject) => {
+			setTimeout(()=>{
+				resolve('done')
+			}, 2000)
+		})
+	}
+	async function f() {
+		const result = await delay()
+		console.log(result)
+	}
+	f()
+
+
+	/**
+		如果该值不是promise, await会把该值转化成promise,然后等待其处理结果
+	**/
+	async function f2() {
+		const y = await setTimeout(()=> {return 20}, 3000)
+		console.log(y)
+	}
+	f2()
+
+	
+
+
+</script>
+</html>

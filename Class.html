@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Class</title>
+</head>
+<body>
+	1. class申明一个类
+	2. static 表示静态修饰
+	3. extends 表示类的继承
+</body>
+<script type="text/javascript">
+
+	function Vue (options) {
+	  this._init(options)
+	}
+
+
+
+	
+
+	function initMixin(Vue){
+		Vue.prototype._init = function(options) {
+			const vm = this;
+			resolveConstructorOptions(vm.constructor)
+		}
+	}
+
+	function resolveConstructorOptions(Ctor) {
+		console.log(Ctor.options)
+	}
+
+
+	Vue.options = Object.create(null);
+	console.log(Vue)
+
+	initMixin(Vue)
+
+
+	new Vue({
+	  el: '#app'
+	})
+
+  
+</script>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>防抖和节流函数</title>
+</head>
+<body>
+	<input type="text" oninput="change2(this, event)" />
+	<button id="box">点击</button>
+	1.防抖：多次触发，事件处理函数只处理一次，在触发操作结束后 +加上延迟 后执行
+	2.节流： 允许在规定事件内只执行一次
+		<div style="height: 4000px"></div>
+</body>
+<script type="text/javascript">
+	/** 防抖 **/
+	const delay = (function () {
+        let timer = 0
+        return function (callback, ms) {
+            clearTimeout(timer)
+            timer = setTimeout(callback, ms)
+        }
+    })();
+
+    let timeout = null;
+	const debounce = (fn, wait) => {
+		return function() {
+			clearTimeout(timeout)
+			timeout = setTimeout(() => {
+				fn.apply(this, arguments)
+			}, wait)
+		}
+	}
+
+	function test() {
+		console.log(111111111111111111)
+	}
+
+	function change2(){
+		debounce(test, 300)()
+	}
+
+
+	/** 节流 **/
+
+	const throttle = (fn, wait) => {
+		let prevTime = Date.now();
+		return function() {
+			let curTime = Date.now();
+			if(curTime - prevTime > wait){
+				fn.apply(this, arguments);
+				prevTime = curTime;
+			}
+		}
+	}
+
+	var throtteScroll = throttle(function() {
+	  console.log('throtte');
+	}, 1000);
+	window.onscroll = throtteScroll;
+	
+
+</script>
+</html>

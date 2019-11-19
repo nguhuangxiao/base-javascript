@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Array</title>
+</head>
+<body>
+1.Array.prototype.filter
+2.Array.prototype.some
+3.Array.prototype.map => 原数组按顺序执行callback函数，生成新的数组
+4.Array.prototype.reduce => 原数组按顺序执行reducer函数（升序执行），返回最后一次回调返回值
+5.Object.keys().map() => 对象转化数组
+6.Object.defineProperty(obj, prop, desc) => 直接在对象中定义属性或者修改已经存在的属性
+	desc:{
+		value: '',
+		writable: false,
+		enumerable: false, //描述属性是否会出现在for in 或者 Object.keys()的遍历中
+		configrable: false,  //描述属性是否配置，以及可否删除
+	}
+7. `index${value}` => 模板定义变量
+</body>
+<script type="text/javascript">
+	const arr = [{
+		name: 'test1',
+		number: 1
+	},{
+		name: 'test2',
+		number: 2
+	},{
+		name: 'test1',
+		number: 3
+	}]
+	const newArr = arr.filter( v => v.number > 1)
+	console.log(newArr)
+
+	/*匿名函数*/
+	const newArr1 = arr.filter(function(v) {
+		return v.number > 2
+	})
+	console.log(newArr1)
+
+	const num = [1,2,3,4].reduce(function(accumulator, item, index){
+		return accumulator + item
+	})
+	console.log(num)
+
+	/*累加对象里值*/
+	var initialValue = 0;
+	var sum = [{x: 1}, {x:2}, {x:3}].reduce(function (accumulator, item) {
+	    return accumulator + item.x;
+	},	initialValue)
+
+	console.log(sum) // logs 6
+
+
+	/*对象转化成数组*/
+	const p = {width:30, height:20, weight:60};
+    const pArr= Object.keys(p).map(key => ({key, value:p[key]}));
+    console.log(pArr)
+
+    function genConfig (name) {
+	  const opts = builds[name]
+	  const config = {
+	    input: opts.entry,
+	    external: opts.external,
+	    output: {
+	      file: opts.dest,
+	      format: opts.format,
+	      name: opts.moduleName || 'Vue'
+	    },
+	    onwarn: (msg, warn) => {
+	      if (!/Circular/.test(msg)) {
+	        warn(msg)
+	      }
+	    }
+	  }
+	  Object.keys(featureFlags).forEach(key => {
+    	vars[`process.env.${key}`] = featureFlags[key]
+ 	  })
+    	Object.defineProperty(config, '_name', {
+	    	enumerable: false,
+	    	value: name
+  		})
+	  return config
+	}
+
+    const builds = {
+		'web-runtime-cjs-dev': {
+		    entry: 'web/entry-runtime.js',
+		    dest: 'dist/vue.runtime.common.dev.js',
+		    format: 'cjs',
+		    env: 'development'
+		},
+		'web-runtime-cjs-prod': {
+		    entry: 'web/entry-runtime.js',
+		    dest: 'dist/vue.runtime.common.prod.js',
+		    format: 'cjs',
+		    env: 'production'
+  		}
+	}
+	const configList = Object.keys(builds).map(genConfig)
+
+
+	const testObj1 = {
+		name: 'nguhuangxiao'
+	}
+	const newTestObj1  = Object.defineProperty(testObj1, 'age', {
+		value: 12,
+		writable: false
+	})
+	newTestObj1.age = 13
+	console.log(testObj1)
+	console.log(newTestObj1)
+
+</script>
+</html>

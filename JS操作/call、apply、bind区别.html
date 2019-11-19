@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>call、apply、bind区别</title>
+</head>
+<body>
+	1. call() 第一个参数是要绑定this的值, 后边传入的是一个参数列表。当第一个参数是null,undefined的时候，默认指向window
+	2. apply接受两个参数，第一个参数是要绑定给this的值，第二个参数是一个参数数组。当第一个参数为null、undefined的时候，默认指向window。
+	3. bind 和call相似，第一个参数是this的指向，后边传入的是一个参数参数列表，区别是bind返回的是函数
+</body>
+<script type="text/javascript">
+var obj = {
+    message: 'My name is: '
+}
+
+function getName(firstName, lastName) {
+    console.log(this.message + firstName + ' ' + lastName)
+}
+
+getName.call(obj, 'huang', 'xiao')
+
+getName.apply(obj, ['xiao', 'ping'])
+
+var test = getName.bind(obj, 'xiao', 'xiaohuang')
+test()
+
+
+
+
+function Person(name,age){
+    // 这里的this都指向实例
+    this.name = name
+    this.age = age
+    this.sayAge = function(){
+        console.log(this.age)
+    }
+}
+function Female(){
+    Person.apply(this, arguments)//将父元素所有方法在这里执行一遍就继承了
+}
+var dot = new Female('Dot',2)
+dot.sayAge()
+
+
+
+var arr1 = [1,2,3];
+var arr2 = [4,5,6];
+var total = arr1.push.apply(arr1, arr2);//6 concat
+console.log(arr1)
+
+
+var arr = [1,2,3,89,46]
+var max = Math.max.apply(null,arr)//89
+console.log(max)
+</script>
+</html>
